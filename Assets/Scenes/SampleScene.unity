@@ -467,6 +467,123 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &553491554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 553491555}
+  - component: {fileID: 553491556}
+  - component: {fileID: 553491557}
+  - component: {fileID: 553491558}
+  m_Layer: 0
+  m_Name: LeapMotionReceiver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &553491555
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553491554}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.28897, y: 0.38267, z: 0.0211}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &553491556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553491554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1664a2a4d69da4c418eba98451df786d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KotoMoguLeapReceiver
+  port: 8767
+  logOncePerSecond: 1
+  receivingPackets: 0
+  frameId: 0
+  handCount: 0
+  hasLeftHand: 0
+  leftPalmMm: {x: 0, y: 0, z: 0}
+  hasRightHand: 0
+  rightPalmMm: {x: 0, y: 0, z: 0}
+  secondsSinceLastPacket: 0
+--- !u!114 &553491557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553491554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1cea3430c04fc948b45d09c24992125, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KotoMoguLeapHandVisualizer
+  receiver: {fileID: 553491556}
+  petRoot: {fileID: 212464012}
+  sensorReferenceMm: {x: 0, y: 180, z: 0}
+  worldOffsetFromPet: {x: 0, y: 0.6, z: 0}
+  unitsPerMillimeter: 0.004
+  invertX: 0
+  invertY: 0
+  invertZ: 0
+  markerDiameter: 0.3
+  leftColor: {r: 0, g: 0.85, b: 1, a: 1}
+  rightColor: {r: 1, g: 0.32, b: 0.75, a: 1}
+--- !u!114 &553491558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553491554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed21eb460ca71474c9c887cc91b9bd6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KotoMoguLeapHeadPetting
+  handVisualizer: {fileID: 553491557}
+  petController: {fileID: 212464013}
+  petRoot: {fileID: 212464012}
+  headTarget: {fileID: 0}
+  headOffsetFromPet: {x: 0, y: 1.8, z: 0}
+  headRadius: 0.8
+  minimumStaySeconds: 0.2
+  minimumStrokeDistance: 0.06
+  noiseStep: 0.003
+  maximumStepSpeed: 2
+  globalCooldownSeconds: 0.8
+  zoneExitMargin: 0.06
+  idleResetSeconds: 1
+  minimumDirectionConsistency: 0.6
+  requestHappyOnPet: 1
+  showTestHud: 1
+  leftInZone: 0
+  rightInZone: 0
+  leftDistanceToHead: 0
+  rightDistanceToHead: 0
+  leftStrokeDistance: 0
+  rightStrokeDistance: 0
+  leftNetDisplacement: 0
+  rightNetDisplacement: 0
+  petEventCount: 0
+  lastEvent: Waiting for hands
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,3 +784,4 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 2124085210}
+  - {fileID: 553491555}
