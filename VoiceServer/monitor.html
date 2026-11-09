@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KotoMogu · Voice Monitor</title>
+<style>
+  :root { color-scheme: dark; font-family: "Yu Gothic", "Meiryo", "Noto Sans CJK JP", Arial, sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin:0; min-height:100vh; color:#f4f7fc; background:radial-gradient(ellipse at 50% 15%,#1a3550 0,#07111f 45%,#030915 100%); }
+  .wrap { width:min(1300px, 96%); margin:auto; padding:3.5vh 0; }
+  header { display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap; }
+  h1 { font-size:clamp(23px, 3vw, 46px); letter-spacing:.07em;margin:0; }
+  .subtitle { margin: .5rem 0 1.8rem;color:#a7bbd0;font-size:clamp(14px,1.5vw,21px); }
+  .pill { background:#13243a;border:1px solid #345371;border-radius:40px;padding:.7rem 1.2rem;color:#a7ecda; }
+  .display { display:flex;flex-direction:column;justify-content:center;min-height:38vh;border:1px solid #4b7e9b;border-radius:24px;background:rgba(11,29,47,.78);padding:clamp(22px,4vw,60px);box-shadow:0 0 60px #20bcd21a; }
+  .caption { color:#74ded9;font-size:clamp(16px,1.5vw,26px);font-weight:700; }
+  .transcript { font-size:clamp(32px,5vw,74px);line-height:1.3;font-weight:700; overflow-wrap:anywhere; margin: .5em 0; }
+  .meta {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0;}
+  .item {padding:15px 18px;background:#0d1d31;border:1px solid #26425b;border-radius:14px;}
+  .label {color:#8da7c4;font-size:clamp(12px,1.3vw,18px);}
+  .value {font-size:clamp(19px,2.5vw,36px);font-weight:700;margin-top:8px;}
+  .history {border-top:1px solid #31506b;margin-top:18px;padding-top:10px;}
+  .entry {padding:13px 4px;border-bottom:1px solid #1e344c;display:flex;gap:18px;align-items:center;font-size:clamp(14px,1.4vw,20px);}
+  .entry time {color:#98b0c7;min-width:6rem;font-size:.8em;}
+  .entry .tag {font-weight:700;color:#74ded9;min-width:3rem;}
+  .entry .text {overflow-wrap:anywhere;}
+  @media(max-width:650px){.meta {grid-template-columns:1fr}.entry {flex-wrap:wrap}}
+</style>
+</head>
+<body><main class="wrap">
+  <header><h1>KOTOMOGU · VOICE MONITOR</h1><div class="pill" id="state">接続中 / Connecting</div></header>
+  <p class="subtitle">未来ペットと言葉のご飯 · OpenAI GPT-Transcribe</p>
+  <section class="display" aria-live="polite"><div class="caption">認識されたことば / 识别文字</div><div class="transcript" id="text">話しかけてみてね！</div></section>
+  <div class="meta">
+   <div class="item"><div class="label">言語 / 语言</div><div class="value" id="language">—</div></div>
+   <div class="item"><div class="label">API 処理時間 / 识别耗时</div><div class="value" id="elapsed">—</div></div>
+   <div class="item"><div class="label">録音時間 / 录音长度</div><div class="value" id="duration">—</div></div>
+  </div>
+  <div class="history"><h2>最近の認識 / 最近识别记录</h2><div id="history"></div></div>
+</main>
+<script>
+const el=id=>document.getElementById(id);
+const langNames={ja:'日本語',zh:'中文',en:'English',fr:'Français',tr:'Türkçe',ko:'한국어',vi:'Tiếng Việt'};
+function setText(id, value){el(id).textContent=value;}
+async function poll(){
+  try {
+    const response=await fetch('/status',{cache:'no-store'});
+    if(!response.ok)throw Error('offline');
+    const d=await response.json();
+    setText('state',({waiting:'待機中 · 就绪',processing:'認識中 · 识别中',done:'完了 · 识别完成',silence:'無音 · 未听到有效语音',error:'API ERROR'})[d.state]||d.state);
+    if(d.state==='done'||d.state==='silence'){
+      setText('text',d.text||'声が聞こえませんでした');
+      setText('language',langNames[d.language]||d.language||'未判定');
+      setText('elapsed',Number(d.elapsed_seconds).toFixed(2)+' s');
+      setText('duration',Number(d.audio_seconds).toFixed(2)+' s');
+    }
+    if(d.state==='error')setText('state','API ERROR · 查看 Python 窗口');
+    const root=el('history');root.replaceChildren();
+    for(const entry of d.history||[]){
+      const line=document.createElement('div');line.className='entry';
+      const when=document.createElement('time');when.textContent=entry.updated_at.split(' ').pop()||'';
+      const lang=document.createElement('span');lang.className='tag';lang.textContent=langNames[entry.language]||entry.language||'?';
+      const txt=document.createElement('span');txt.className='text';txt.textContent=entry.text;
+      line.append(when,lang,txt);root.appendChild(line);
+    }
+  }catch(_){setText('state','サーバーに接続できません · 服务未连接');}
+}
+poll();setInterval(poll,400);
+</script></body></html>

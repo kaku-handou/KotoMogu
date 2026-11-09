@@ -156,9 +156,10 @@ MonoBehaviour:
   serverUrl: http://127.0.0.1:8765
   autoExecute: 1
   automaticListening: 1
+  pauseWhenUnfocused: 0
   uiFont: {fileID: 0}
   microphoneName: 
-  voiceThreshold: 0.1
+  voiceThreshold: 0.012
   silenceSeconds: 0.9
   minimumVoiceSeconds: 0.25
   maximumSentenceSeconds: 10
@@ -193,7 +194,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 212464006}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ff15eff95a5b6a47b2f9e1bca69e7c2, type: 3}
   m_Name: 
