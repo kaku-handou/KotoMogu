@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\unity\KotoMogu-backup\KotoMogu-backup\LeapBridge_Orion41\LeapBridge.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\unity\LeapDeveloperKit_4.1.0+52211_win\LeapSDK\samples\ExampleConnection.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\unity\KotoMogu-backup\KotoMogu-backup\LeapBridge_Orion41\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{07A85DF2-4539-3BB4-91FD-15D156DAB16A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
