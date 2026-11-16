@@ -41,7 +41,16 @@
 </main>
 <script>
 const el=id=>document.getElementById(id);
-const langNames={ja:'日本語',zh:'中文',en:'English',fr:'Français',tr:'Türkçe',ko:'한국어',vi:'Tiếng Việt'};
+const langNames = {
+    ja: '日本語',
+    zh: '中文',
+    en: 'English',
+    fr: 'Français',
+    tr: 'Türkçe',
+    ko: '한국어',
+    vi: 'Tiếng Việt',
+    my: 'မြန်မာဘာသာ'
+};
 function setText(id, value){el(id).textContent=value;}
 async function poll(){
   try {

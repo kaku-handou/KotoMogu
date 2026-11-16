@@ -164,6 +164,8 @@ MonoBehaviour:
   minimumVoiceSeconds: 0.25
   maximumSentenceSeconds: 10
   inputMuted: 0
+  vadChunkSeconds: 0.3
+  vadStartWindows: 2
 --- !u!4 &212464012 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 83e3ede4d06b7cd4aa510e9f713a3262, type: 3}
@@ -290,8 +292,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0.13935062, y: -0.005831624, z: 0.00090185704, w: -0.9902255}
+  m_LocalPosition: {x: 0.8112013, y: 2.282244, z: -6.5589714}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
