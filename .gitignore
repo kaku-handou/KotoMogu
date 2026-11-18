@@ -8,6 +8,13 @@
 [Bb]uilds/
 [Mm]emoryCaptures/
 
+unity/Kotomogu/[Ll]ibrary/
+unity/Kotomogu/[Tt]emp/
+unity/Kotomogu/[Ll]ogs/
+unity/Kotomogu/[Oo]bj/
+unity/Kotomogu/[Bb]uild/
+unity/Kotomogu/[Uu]ser[Ss]ettings/
+
 # IDE
 .vs/
 .idea/
