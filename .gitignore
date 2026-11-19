@@ -1,4 +1,4 @@
-# Unity 缓存与临时文件
+# Unity のキャッシュと一時ファイル（リポジトリ直下の Unity プロジェクト用）
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
@@ -8,6 +8,7 @@
 [Bb]uilds/
 [Mm]emoryCaptures/
 
+# Unity のキャッシュと一時ファイル（unity/Kotomogu 用）
 unity/Kotomogu/[Ll]ibrary/
 unity/Kotomogu/[Tt]emp/
 unity/Kotomogu/[Ll]ogs/
@@ -15,31 +16,31 @@ unity/Kotomogu/[Oo]bj/
 unity/Kotomogu/[Bb]uild/
 unity/Kotomogu/[Uu]ser[Ss]ettings/
 
+# 3D モデル本体（大きいので GitHub に上げない）
+# 各 PC に手動で置く。設定や紐づけを保つため、.fbx.meta は Git に入れる
+*.[Ff][Bb][Xx]
+
 # IDE
 .vs/
 .idea/
 *.csproj
 *.sln
+*.slnx
 *.user
 
-# Python 环境和缓存
+# Python の仮想環境とキャッシュ
 .venv/
 venv/
 __pycache__/
 *.pyc
 .pytest_cache/
-
-# 本机下载的识别模型
-models/
 .cache/
 
-# 密钥与本机配置
+# API キーなど、その PC だけの設定
 .env
 .env.*
 !.env.example
 
-# 系统文件
+# OS が作るファイル
 .DS_Store
 Thumbs.db
-
-*.slnx
