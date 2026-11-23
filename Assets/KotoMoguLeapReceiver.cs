@@ -9,7 +9,6 @@ using UnityEngine;
 /// Receives JSON from 127.0.0.1:8767 and displays live palm coordinates
 /// in the Unity Inspector. Does NOT control the pet or change existing inputs.
 /// </summary>
-[DisallowMultipleComponent]
 public sealed class KotoMoguLeapReceiver : MonoBehaviour
 {
     [Header("UDP settings")]
@@ -36,12 +35,6 @@ public sealed class KotoMoguLeapReceiver : MonoBehaviour
     public Vector3 RightPalmMm { get { return rightPalmMm; } }
     public float SecondsSinceLastPacket { get { return secondsSinceLastPacket; } }
 
-    // Incremented for every accepted packet; gesture dwell advances only on fresh data.
-    public uint PacketSerial { get; private set; }
-    public LeapHand LeftPose { get; private set; }
-    public LeapHand RightPose { get; private set; }
-    public bool HasGestureData { get; private set; }
-
     private UdpClient client;
     private IPEndPoint remoteEndPoint;
     private float lastPacketTime = -1000f;
@@ -51,29 +44,22 @@ public sealed class KotoMoguLeapReceiver : MonoBehaviour
     private class LeapPacket
     {
         public string source;
-        public int protocol;
         public long frame;
         public LeapHand[] hands;
     }
 
     [Serializable]
-    public sealed class LeapHand
+    private class LeapHand
     {
         public int id;
         public string hand;
         public float x;
         public float y;
         public float z;
-        public float grab;
-        public int thumb, index, middle, ring, pinky;
-        public float tx, ty, tz;
     }
 
     private void OnEnable()
     {
-        PacketSerial = 0;
-        LeftPose = RightPose = null;
-        HasGestureData = false;
         // Avoid stale Play Mode / Inspector hand flags.
         receivingPackets = false;
         frameId = 0;
@@ -131,9 +117,6 @@ public sealed class KotoMoguLeapReceiver : MonoBehaviour
                 LeapPacket packet = JsonUtility.FromJson<LeapPacket>(newestJson);
                 if (packet != null && packet.source == "leap-gen1")
                 {
-                    PacketSerial++;
-                    HasGestureData = packet.protocol >= 2;
-                    LeftPose = RightPose = null;
                     frameId = packet.frame;
                     handCount = packet.hands != null ? packet.hands.Length : 0;
                     hasLeftHand = false;
@@ -147,13 +130,11 @@ public sealed class KotoMoguLeapReceiver : MonoBehaviour
                             Vector3 palm = new Vector3(hand.x, hand.y, hand.z);
                             if (hand.hand == "left")
                             {
-                                LeftPose = hand;
                                 hasLeftHand = true;
                                 leftPalmMm = palm;
                             }
                             else if (hand.hand == "right")
                             {
-                                RightPose = hand;
                                 hasRightHand = true;
                                 rightPalmMm = palm;
                             }
@@ -172,8 +153,6 @@ public sealed class KotoMoguLeapReceiver : MonoBehaviour
         receivingPackets = secondsSinceLastPacket < 2f;
         if (!receivingPackets)
         {
-            LeftPose = RightPose = null;
-            HasGestureData = false;
             handCount = 0;
             hasLeftHand = false;
             hasRightHand = false;
@@ -195,8 +174,6 @@ public sealed class KotoMoguLeapReceiver : MonoBehaviour
             client.Close();
             client = null;
         }
-        LeftPose = RightPose = null;
-        HasGestureData = false;
         receivingPackets = false;
         handCount = 0;
         hasLeftHand = false;

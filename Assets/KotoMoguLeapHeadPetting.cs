@@ -8,7 +8,6 @@ using UnityEngine;
 /// Other KotoMogu scripts, the UDP receiver, and the existing Animator are untouched.
 /// </summary>
 [DisallowMultipleComponent]
-[DefaultExecutionOrder(100)]
 [RequireComponent(typeof(KotoMoguLeapReceiver))]
 public sealed class KotoMoguLeapHeadPetting : MonoBehaviour
 {
@@ -137,14 +136,6 @@ public sealed class KotoMoguLeapHeadPetting : MonoBehaviour
         nextGlobalEventTime = 0f;
         warnedMissingReference = false;
         warnedUnknownHappy = false;
-    }
-
-    // Used by Leap gestures to reserve the head zone for stroking.
-    public bool IsPalmNearHead(Vector3 palmWorld)
-    {
-        Vector3 center;
-        return isActiveAndEnabled && TryGetHeadCenter(out center) &&
-            Vector3.Distance(palmWorld, center) <= headRadius + zoneExitMargin;
     }
 
     private bool TryGetHeadCenter(out Vector3 center)
@@ -285,8 +276,6 @@ public sealed class KotoMoguLeapHeadPetting : MonoBehaviour
     private void RequestHappyIfEnabled()
     {
         if (!requestHappyOnPet) return;
-        var gesture = GetComponent<KotoMoguLeapGestureInput>();
-        if (gesture != null && gesture.BlocksPetting) return;
         if (petController == null)
         {
             lastEvent += " (no Pet Controller)";

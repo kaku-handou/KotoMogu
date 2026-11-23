@@ -1,7 +1,7 @@
 using System;
 
 // Unity に依存しない内部ロジック。入力はメインスレッドから渡す。
-public enum KotoAction { Idle, Greet, Jump, Eat, Happy, Sleep, LookAround, Hungry, Weak, Bite, PlayDead, Victory, Roar, Shy }
+public enum KotoAction { Idle, Greet, Jump, Eat, Happy, Sleep, LookAround, Hungry, Weak }
 
 [Serializable]
 public class KotoMoguSaveData
@@ -120,11 +120,6 @@ public sealed class KotoMoguBrain
             case KotoAction.Hungry:
             case KotoAction.Weak:
             case KotoAction.LookAround: return 2.5f;
-            case KotoAction.Bite: return 2.8f;
-            case KotoAction.Victory: return 2.8f;
-            case KotoAction.Roar: return 3.2f;
-            case KotoAction.Shy: return 3f;
-            case KotoAction.PlayDead: return 4.2f;
             case KotoAction.Jump: return 0.7f;
             case KotoAction.Eat: return 2f;
             case KotoAction.Greet: return 1.5f;
@@ -251,11 +246,6 @@ public sealed class KotoMoguBrain
         }
         else if (Has(normalized, "起きて", "起きる", "wake", "醒来", "醒來", "起床")) next = KotoAction.Idle;
         else if (Has(normalized, "おやすみ", "寝て", "sleep", "good night", "睡觉", "睡覺", "晚安")) next = KotoAction.Sleep;
-        else if (Has(normalized, "咬一下", "轻咬", "かんで", "bite")) next = KotoAction.Bite;
-        else if (Has(normalized, "胜利", "勝利", "victory")) next = KotoAction.Victory;
-        else if (Has(normalized, "吼一下", "がおー", "roar")) next = KotoAction.Roar;
-        else if (Has(normalized, "害羞", "照れて", "shy")) next = KotoAction.Shy;
-        else if (Has(normalized, "装死", "死んだふり", "play dead")) next = KotoAction.PlayDead;
         else if (Has(normalized, "ジャンプ", "跳んで", "jump", "跳跃", "跳躍", "跳一下", "跳一跳", "跳起来", "跳起來")) next = KotoAction.Jump;
         else if (Has(normalized, "こんにちは", "こんばんは", "hello", "你好", "您好")) next = KotoAction.Greet;
         else if (Has(normalized, "かわいい", "可愛い", "ありがとう", "cute", "thank you", "可爱", "可愛", "谢谢", "謝謝")) next = KotoAction.Happy;
@@ -277,11 +267,6 @@ public sealed class KotoMoguBrain
     {
         switch ((label ?? "").Trim().ToLowerInvariant())
         {
-            case "victory": return Request(KotoAction.Victory, "gesture: victory");
-            case "rock": return Request(KotoAction.Roar, "gesture: rock");
-            case "shaka": return Request(KotoAction.Shy, "gesture: shaka");
-            case "point": return Request(KotoAction.Bite, "gesture: point");
-            case "finger_gun": return Request(KotoAction.PlayDead, "gesture: finger_gun");
             case "open_palm": return Request(KotoAction.Greet, "gesture: open_palm");
             case "fist": return Request(KotoAction.Eat, "gesture: fist");
             case "thumb_up": return Request(KotoAction.Happy, "gesture: thumb_up");

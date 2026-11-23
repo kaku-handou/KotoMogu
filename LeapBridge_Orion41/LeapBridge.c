@@ -1,7 +1,7 @@
 /* KotoMogu LeapBridge: reads Orion 4.1 LeapC tracking data and sends
  * localhost UDP JSON on port 8767. Uses the user's existing SDK's
  * ExampleConnection.c/.h; no SDK binaries or source are redistributed.
- * Gesture protocol v2: retains palm coordinates for existing head petting.
+ * Prototype: NOT yet an input recognized by Unity KotoMogu.
  */
 #define WIN32_LEAN_AND_MEAN
 #include <winsock2.h>
@@ -44,7 +44,7 @@ int main(void) {
     return 1;
   }
 
-  printf("LeapBridge GESTURES protocol v2: UDP 127.0.0.1:8767\n");
+  printf("LeapBridge Orion 4.1: UDP 127.0.0.1:8767\n");
   printf("Waiting for Leap Motion service... (Ctrl+C to stop)\n");
   OpenConnection();
   ULONGLONG start_ms = GetTickCount64();
@@ -73,10 +73,9 @@ int main(void) {
     }
     last_send_ms = now;
 
-    char packet[2048];
-    int packet_ok = 1;
+    char packet[1024];
     int written = snprintf(packet, sizeof(packet),
-      "{\"source\":\"leap-gen1\",\"protocol\":2,\"frame\":%lld,\"hands\":[",
+      "{\"source\":\"leap-gen1\",\"frame\":%lld,\"hands\":[",
       (long long)frame->tracking_frame_id);
     if (written < 0 || written >= (int)sizeof(packet)) continue;
     size_t used = (size_t)written;
@@ -85,23 +84,14 @@ int main(void) {
     for (uint32_t i = 0; i < count; ++i) {
       const LEAP_HAND *hand = &frame->pHands[i];
       written = snprintf(packet + used, sizeof(packet) - used,
-        "%s{\"id\":%d,\"hand\":\"%s\",\"x\":%.2f,\"y\":%.2f,\"z\":%.2f,"
-        "\"grab\":%.3f,\"thumb\":%u,\"index\":%u,\"middle\":%u,\"ring\":%u,\"pinky\":%u,"
-        "\"tx\":%.3f,\"ty\":%.3f,\"tz\":%.3f}",
+        "%s{\"id\":%d,\"hand\":\"%s\",\"x\":%.2f,\"y\":%.2f,\"z\":%.2f}",
         i ? "," : "", (int)hand->id,
         hand->type == eLeapHandType_Left ? "left" : "right",
-        hand->palm.position.x, hand->palm.position.y, hand->palm.position.z,
-        hand->grab_strength,
-        (unsigned)hand->thumb.is_extended, (unsigned)hand->index.is_extended,
-        (unsigned)hand->middle.is_extended, (unsigned)hand->ring.is_extended,
-        (unsigned)hand->pinky.is_extended,
-        hand->thumb.distal.next_joint.x - hand->thumb.distal.prev_joint.x,
-        hand->thumb.distal.next_joint.y - hand->thumb.distal.prev_joint.y,
-        hand->thumb.distal.next_joint.z - hand->thumb.distal.prev_joint.z);
-      if (written < 0 || (size_t)written >= sizeof(packet) - used) { packet_ok = 0; break; }
+        hand->palm.position.x, hand->palm.position.y, hand->palm.position.z);
+      if (written < 0 || (size_t)written >= sizeof(packet) - used) break;
       used += (size_t)written;
     }
-    if (!packet_ok || used + 3 >= sizeof(packet)) continue;
+    if (used + 3 >= sizeof(packet)) continue;
     packet[used++] = ']';
     packet[used++] = '}';
     packet[used] = '\0';

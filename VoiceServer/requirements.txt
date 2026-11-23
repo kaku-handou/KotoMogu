@@ -1,1 +1,3 @@
-faster-whisper==1.2.1
+# Official OpenAI Python SDK; no faster-whisper, torch or local model files.
+openai>=2.0
+webrtcvad-wheels>=2.0.14.post1

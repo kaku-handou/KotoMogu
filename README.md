@@ -57,3 +57,29 @@ KotoMogu 是一款使用 Unity 开发的互动虚拟宠物原型。使用者可�
 角色动作主要通过模型部件动画实现。后续计划完善动画过渡、自主行为优先级、日常互动反馈和部署流程，让小龙的表现更加自然。
 
 当前的饥饿与虚弱属于状态反馈，尚未实现完整的死亡与复活系统。
+
+## unityで最初にコトモグを表示させる方法
+1. ""Unity を開く前に"" kotomogu3d.fbx を unity/Kotomogu/Assets/_Project/Models/ に置く
+2. Unity Hub で unity/Kotomogu フォルダを追加して開く
+3. Assets/Scenes/SampleScene をダブルクリックして開く
+
+## unity 非アクティブ時の一時停止設定の解除
+1. 上のメニューの Edit → Project Settings を開きます。
+2. 左の一覧から Player を選びます。
+3. Resolution and Presentation を開きます。
+4. Run In Background にチェックを入れます。
+
+## python仮想環境導入手順
+0. ver3.11が入っているか確認
+1. pythonフォルダでcmd
+2. python -m venv .venv 仮想環境を作る
+3. .venv\Scripts\activate.bat 有効化
+
+## ライブラリインストール
+python -m pip install --upgrade pip
+pip install mediapipe opencv-python
+
+## python実行方法
+python tools\send_test.py
+python -m perception.face
+python -m perception.hand

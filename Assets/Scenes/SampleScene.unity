@@ -292,8 +292,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0.13935062, y: -0.005831624, z: 0.00090185704, w: -0.9902255}
+  m_LocalPosition: {x: 0.8112013, y: 2.282244, z: -6.5589714}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -482,7 +482,6 @@ GameObject:
   - component: {fileID: 553491556}
   - component: {fileID: 553491557}
   - component: {fileID: 553491558}
-  - component: {fileID: 553491559}
   m_Layer: 0
   m_Name: LeapMotionReceiver
   m_TagString: Untagged
@@ -588,35 +587,6 @@ MonoBehaviour:
   rightNetDisplacement: 0
   petEventCount: 0
   lastEvent: Waiting for hands
---- !u!114 &553491559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 553491554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b62e406999f6e5049b23c1647f63a590, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KotoMoguLeapGestureInput
-  receiver: {fileID: 553491556}
-  petController: {fileID: 212464013}
-  handVisualizer: {fileID: 553491557}
-  headPetting: {fileID: 553491558}
-  executeActions: 1
-  suppressNearHead: 1
-  stableSeconds: 0.3
-  releaseSeconds: 0.25
-  cooldownSeconds: 1
-  maximumPacketAge: 0.3
-  openGrabMaximum: 0.3
-  fistGrabMinimum: 0.8
-  thumbUpMinimumY: 0.5
-  status: Waiting for protocol v2 bridge
-  leftGesture: 
-  rightGesture: 
-  acceptedCount: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
